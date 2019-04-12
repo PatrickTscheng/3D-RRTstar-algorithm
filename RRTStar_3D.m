@@ -1,18 +1,10 @@
-%{
-this is a rrt* algorithmus using matlab in 3D with obstacle
-original code is from https://www.mathworks.com/matlabcentral/fileexchange/60993-2d-3d-rrt-algorithm
-add the obstacle features in 3D part
-
-%}
-
-
 clearvars
 close all
 x_max = 640;
 y_max = 480;
 z_max = 400;
 
-obs = [220,200,150,200,140,100]; % 6 parameter of a cuboid obstacle 
+obs = [220,200,150,200,140,100];
 
 EPS = 10;
 numNodes = 5000;        
@@ -26,19 +18,12 @@ q_goal.cost = 0;
 nodes(1) = q_start;
 figure(1)
 axis([0 x_max 0 y_max 0 z_max])
-patch(obsgen(obs)) %show obstacle
+patch(obsgen(obs))
 hold on
 
 for i = 1:1:numNodes
     q_rand = [rand(1)*x_max rand(1)*y_max rand(1)*z_max];
     plot3(q_rand(1), q_rand(2), q_rand(3), 'x', 'Color',  [0 0.4470 0.7410])
-    
-    % Break if goal node is already reached
-    for j = 1:1:length(nodes)
-        if nodes(j).coord == q_goal.coord
-            break
-        end
-    end
     
     % Pick the closest node from existing list to branch out from
     ndist = zeros(length(nodes),1);
@@ -94,6 +79,12 @@ for i = 1:1:numNodes
         
         % Append to nodes
         nodes = [nodes q_new];
+        
+        % Break if goal node is already reached
+        if dist_3d(q_new.coord, q_goal.coord) < EPS
+            break
+        end
+        
     end
 end
 
