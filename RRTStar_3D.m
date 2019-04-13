@@ -4,12 +4,12 @@ x_max = 640;
 y_max = 480;
 z_max = 400;
 
-obs = [220,200,150,200,140,100];
 
 EPS = 10;
 numNodes = 5000;        
 
 q_start.coord = [200 150 100];
+obs = [220,200,150,200,140,100];
 q_start.cost = 0;
 q_start.parent = 0;
 q_goal.coord = [450 350 260];
@@ -62,7 +62,7 @@ for i = 1:1:numNodes
         % cost paths
         
         for k = 1:1:length(q_nearest)
-            if noCollision(nodes(j).coord, q_new.coord, obs) && q_nearest(k).cost + dist_3d(q_nearest(k).coord, q_new.coord) < C_min
+            if noCollision(nodes(k).coord, q_new.coord, obs) && q_nearest(k).cost + dist_3d(q_nearest(k).coord, q_new.coord) < C_min
                 q_min = q_nearest(k);
                 C_min = q_nearest(k).cost + dist_3d(q_nearest(k).coord, q_new.coord);
                 line([q_min.coord(1), q_new.coord(1)], [q_min.coord(2), q_new.coord(2)], [q_min.coord(3), q_new.coord(3)], 'Color', 'g');            
