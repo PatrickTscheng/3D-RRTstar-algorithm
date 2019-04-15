@@ -36,7 +36,7 @@ for i = 1:1:numNodes
     q_near = nodes(idx);
     
     q_new.coord = steer3d(q_rand, q_near.coord, val, EPS);
-    if noCollision(q_rand, q_near.coord, obs)%collision detection
+    if noCollision(q_new.coord, q_near.coord, obs)%collision detection
         line([q_near.coord(1), q_new.coord(1)], [q_near.coord(2), q_new.coord(2)], [q_near.coord(3), q_new.coord(3)], 'Color', 'k', 'LineWidth', 2);
         drawnow
         hold on
@@ -62,7 +62,7 @@ for i = 1:1:numNodes
         % cost paths
         
         for k = 1:1:length(q_nearest)
-            if noCollision(nodes(k).coord, q_new.coord, obs) && q_nearest(k).cost + dist_3d(q_nearest(k).coord, q_new.coord) < C_min
+            if q_nearest(k).cost + dist_3d(q_nearest(k).coord, q_new.coord) < C_min
                 q_min = q_nearest(k);
                 C_min = q_nearest(k).cost + dist_3d(q_nearest(k).coord, q_new.coord);
                 line([q_min.coord(1), q_new.coord(1)], [q_min.coord(2), q_new.coord(2)], [q_min.coord(3), q_new.coord(3)], 'Color', 'g');            
